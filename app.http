@@ -1,0 +1,11 @@
+GET http://localhost:3000/states/
+Authorization: Bearer 
+
+###
+GET http://localhost:3000/login/
+Content-Type: application/json 
+
+{
+  "username": "christopher_phillips",
+  "password": "christy@123"
+}
