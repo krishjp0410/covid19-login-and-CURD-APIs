@@ -3,7 +3,7 @@ const { open } = require("sqlite");
 const sqlite3 = require("sqlite3");
 const path = require("path");
 const bcrypt = require("bcrypt");
-const jwtToken = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 const app = express();
 const databasePath = path.join(__dirname, "covid19IndiaPortal.db");
@@ -78,7 +78,7 @@ app.post("/login/", async (request, response) => {
   const selectUserQuery = `SELECT  * FROM  user  WHERE username = '${username}';`;
   const dbUser = await database.get(selectUserQuery);
   if (dbUser === undefined) {
-    response.send(400);
+    response.status(400);
     response.send("Invalid user");
   } else {
     const isMatchedPassword = await bcrypt.compare(password, dbUser.password);
@@ -87,7 +87,7 @@ app.post("/login/", async (request, response) => {
       const jwtToken = jwt.sign(payload, "SECRET_KEY_IN");
       response.send({ jwtToken });
     } else {
-      response.send(400);
+      response.status(400);
       response.send("Invalid password");
     }
   }
